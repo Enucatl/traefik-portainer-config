@@ -23,5 +23,5 @@ tls:
   stores:
     default:
       defaultCertificate:
-        certFile: /home/user/docker/traefik/certs/fullchain.pem
-        keyFile: /home/user/docker/traefik/certs/privkey.pem
+        certFile: /certs/fullchain.pem
+        keyFile: /certs/privkey.pem

@@ -6,9 +6,9 @@ services:
     container_name: traefik
     restart: unless-stopped
     security_opt:
-      - no-new-privileges: true
+      - no-new-privileges:true
     networks:
-      - proxy
+      - traefik_proxy
     ports:
       - 80:80
       - 443:443
@@ -17,10 +17,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/user/docker/traefik/data/traefik.yml:/traefik.yml:ro
       - /home/user/docker/traefik/data/config.yml:/config.yml:ro
+      - /home/user/docker/traefik/data/certs:/certs:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
       - "traefik.http.routers.traefik.rule=Host(`traefix-dashboard.nuc10i7fnh.home.arpa`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=user:$$apr1$$DgklPQKA$$b7GSF2OkJiw/xeNM6JNUT."
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
@@ -28,11 +30,10 @@ services:
       - "traefik.http.routers.traefik-secure.rule=Host(`traefix-dashboard.nuc10i7fnh.home.arpa`)"
       - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=nuc10i7fnh.home.arpa"
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.nuc10i7fnh.home.arpa"
       - "traefik.http.routers.traefik-secure.service=api@internal"
 
 networks:
-  proxy:
+  traefik_proxy:
     external: true
