@@ -1,0 +1,27 @@
+api:
+  dashboard: true
+  debug: true
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: ":443"
+serversTransport:
+  insecureSkipVerify: false
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /config.yml
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /home/user/docker/traefik/certs/fullchain.pem
+        keyFile: /home/user/docker/traefik/certs/privkey.pem
