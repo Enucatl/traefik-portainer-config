@@ -1,43 +1,30 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/fullchain.pem
+        keyFile: /etc/traefik/certs/privkey.pem
+
 http:
- #region routers 
+
   routers:
-    proxmox:
+
+    dashboard:
+      rule: Host(`traefik-dashboard.nuc10i7fnh.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+      middlewares:
+        - https-redirectscheme
+        - default-whitelist
       entryPoints:
         - "https"
-      rule: "Host(`proxmox.local.example.com`)"
-      middlewares:
-        - default-headers
-        - https-redirectscheme
       tls: {}
-      service: proxmox
 
-#endregion
-#region services
-  services:
-    proxmox:
-      loadBalancer:
-        servers:
-          - url: "https://192.168.0.100:8006"
-        passHostHeader: true
 
   middlewares:
     https-redirectscheme:
       redirectScheme:
         scheme: https
         permanent: true
-
-    default-headers:
-      headers:
-        frameDeny: true
-        browserXssFilter: true
-        contentTypeNosniff: true
-        forceSTSHeader: true
-        stsIncludeSubdomains: true
-        stsPreload: true
-        stsSeconds: 15552000
-        customFrameOptionsValue: SAMEORIGIN
-        customRequestHeaders:
-          X-Forwarded-Proto: https
 
     default-whitelist:
       ipWhiteList:

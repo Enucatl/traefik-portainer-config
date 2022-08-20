@@ -1,6 +1,5 @@
 api:
   dashboard: true
-  debug: true
 entryPoints:
   http:
     address: ":80"
@@ -18,10 +17,5 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
   file:
-    filename: /config.yml
-tls:
-  stores:
-    default:
-      defaultCertificate:
-        certFile: /certs/fullchain.pem
-        keyFile: /certs/privkey.pem
+    watch: true
+    directory: /etc/traefik
