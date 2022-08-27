@@ -1,26 +1,45 @@
 tls:
-  stores:
-    default:
-      defaultCertificate:
-        certFile: /etc/traefik/certs/fullchain.pem
-        keyFile: /etc/traefik/certs/privkey.pem
+  certificates:
+    - certFile: /etc/traefik/certs/traefik.crt
+      keyFile: /etc/traefik/certs/traefik.key
+    - certFile: /etc/traefik/certs/checkmk.crt
+      keyFile: /etc/traefik/certs/checkmk.key
+
 
 http:
 
+
   routers:
 
-    dashboard:
-      rule: Host(`traefik-dashboard.nuc10i7fnh.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+    checkmk:
+      rule: Host(`checkmk.nuc10i7fnh.home.arpa`)
+      service: checkmk
+      middlewares:
+        - secured
+      entryPoints:
+        - "https"
+      tls: {}
+
+    traefik:
+      rule: Host(`traefik.nuc10i7fnh.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
       middlewares:
-        - https-redirectscheme
-        - default-whitelist
+        - secured
       entryPoints:
         - "https"
       tls: {}
 
 
+  services:
+
+    checkmk:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.30:10080"
+
+
   middlewares:
+
     https-redirectscheme:
       redirectScheme:
         scheme: https
@@ -34,5 +53,5 @@ http:
     secured:
       chain:
         middlewares:
+        - https-redirectscheme
         - default-whitelist
-        - default-headers
