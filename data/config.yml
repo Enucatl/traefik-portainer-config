@@ -12,6 +12,8 @@ tls:
       keyFile: /etc/traefik/certs/elabftw.key
     - certFile: /etc/traefik/certs/qbittorrent.crt
       keyFile: /etc/traefik/certs/qbittorrent.key
+    - certFile: /etc/traefik/certs/authentik.crt
+      keyFile: /etc/traefik/certs/authentik.key
 
 
 http:
@@ -33,6 +35,7 @@ http:
       service: api@internal
       middlewares:
         - secured
+        - authentik
       entryPoints:
         - "https"
       tls: {}
@@ -57,6 +60,23 @@ http:
       ipWhiteList:
         sourceRange:
         - "192.168.0.0/16"
+
+    authentik:
+      forwardAuth:
+        address: "http://nuc10i7fnh.home.arpa:9000/outpost.goauthentik.io/auth/traefik"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - X-authentik-username
+          - X-authentik-groups
+          - X-authentik-email
+          - X-authentik-name
+          - X-authentik-uid
+          - X-authentik-jwt
+          - X-authentik-meta-jwks
+          - X-authentik-meta-outpost
+          - X-authentik-meta-provider
+          - X-authentik-meta-app
+          - X-authentik-meta-version
 
     secured:
       chain:
