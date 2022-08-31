@@ -1,20 +1,20 @@
 tls:
   certificates:
-    - certFile: /etc/traefik/certs/traefik.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/traefik.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/traefik.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/checkmk.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/checkmk.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/checkmk.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/portainer.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/portainer.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/portainer.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/paperless.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/paperless.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/paperless.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/authentik.nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/authentik.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/authentik.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/cert.pem 
+    - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/privkey.pem 
 
 
