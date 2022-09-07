@@ -13,8 +13,8 @@ tls:
       keyFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/authentik.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/authentik.nuc10i7fnh.home.arpa/privkey.pem 
+    - certFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/fullchain.pem 
+      keyFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/privkey.pem 
 
