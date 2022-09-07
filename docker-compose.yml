@@ -16,7 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/user/docker/traefik/data:/etc/traefik:ro
     command:
-      - "--log.level=DEBUG"
+      - "--log.level=INFO"
     labels:
       - "traefik.enable=true"
 

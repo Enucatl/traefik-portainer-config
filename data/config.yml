@@ -47,7 +47,7 @@ http:
     checkmk:
       loadBalancer:
         servers:
-          - url: "http://192.168.2.30:10080"
+          - url: "http://nuc10i7fnh.home.arpa:10080/"
 
 
   middlewares:
