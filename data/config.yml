@@ -36,6 +36,7 @@ http:
       rule: Host(`traefik.nuc10i7fnh.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
       middlewares:
+        - authelia@docker
         - secured
       entryPoints:
         - "https"
