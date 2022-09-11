@@ -15,6 +15,8 @@ tls:
       keyFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/privkey.pem 
+    - certFile: /etc/traefik/certs/duplicati.nuc10i7fnh.home.arpa/fullchain.pem 
+      keyFile: /etc/traefik/certs/duplicati.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/privkey.pem 
 
@@ -22,6 +24,16 @@ tls:
 http:
 
   routers:
+
+    duplicati:
+      rule: Host(`duplicati.nuc10i7fnh.home.arpa`)
+      service: duplicati
+      middlewares:
+        - authelia@docker
+        - secured
+      entryPoints:
+        - "https"
+      tls: {}
 
     checkmk:
       rule: Host(`checkmk.nuc10i7fnh.home.arpa`)
@@ -43,6 +55,12 @@ http:
 
 
   services:
+
+    duplicati:
+      loadBalancer:
+        servers:
+          - url: "http://nuc10i7fnh.home.arpa:8002/"
+
 
     checkmk:
       loadBalancer:
