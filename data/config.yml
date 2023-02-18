@@ -61,11 +61,10 @@ http:
         servers:
           - url: "http://nuc10i7fnh.home.arpa:8002/"
 
-
     checkmk:
       loadBalancer:
         servers:
-          - url: "http://nuc10i7fnh.home.arpa:10080/"
+          - url: "http://nuc10i7fnh.home.arpa:15000/"
 
 
   middlewares:
