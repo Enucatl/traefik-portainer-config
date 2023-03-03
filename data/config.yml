@@ -19,6 +19,10 @@ tls:
       keyFile: /etc/traefik/certs/duplicati.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/privkey.pem 
+    - certFile: /etc/traefik/certs/grafana.nuc10i7fnh.home.arpa/fullchain.pem 
+      keyFile: /etc/traefik/certs/grafana.nuc10i7fnh.home.arpa/privkey.pem 
+    - certFile: /etc/traefik/certs/loki.nuc10i7fnh.home.arpa/fullchain.pem 
+      keyFile: /etc/traefik/certs/loki.nuc10i7fnh.home.arpa/privkey.pem 
 
 
 http:
