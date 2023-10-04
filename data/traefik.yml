@@ -10,6 +10,10 @@ entryPoints:
           scheme: https
   https:
     address: ":443"
+  protonmail-bridge-imap:
+    address: ":1243"
+  protonmail-bridge-smtp:
+    address: ":1125"
 serversTransport:
   insecureSkipVerify: false
 providers:
