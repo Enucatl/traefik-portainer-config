@@ -8,8 +8,32 @@ entryPoints:
         entryPoint:
           to: https
           scheme: https
+    forwardedHeaders:
+      trustedIPs:
+        - '192.168.2.0/24'
+        - '172.17.0.0/16'
+        - '2a04:ee41:3:5506::0/64'
+      insecure: false
+    proxyProtocol:
+      trustedIPs:
+        - '192.168.2.0/24'
+        - '172.17.0.0/16'
+        - '2a04:ee41:3:5506::0/64'
+      insecure: false
   https:
     address: ":443"
+    forwardedHeaders:
+      trustedIPs:
+        - '192.168.2.0/24'
+        - '172.17.0.0/16'
+        - '2a04:ee41:3:5506::0/64'
+      insecure: false
+    proxyProtocol:
+      trustedIPs:
+        - '192.168.2.0/24'
+        - '172.17.0.0/16'
+        - '2a04:ee41:3:5506::0/64'
+      insecure: false
   protonmail-bridge-imap:
     address: ":1243"
   protonmail-bridge-smtp:
