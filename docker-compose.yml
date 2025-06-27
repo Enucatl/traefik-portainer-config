@@ -19,6 +19,17 @@ services:
       - "checkmk_monitor=true"
       - "traefik.enable=true"
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN
+    networks:
+      - traefik_proxy
+    command: tunnel run
+    labels:
+      - "checkmk_monitor=true"
+
 networks:
   traefik_proxy:
     external: true
