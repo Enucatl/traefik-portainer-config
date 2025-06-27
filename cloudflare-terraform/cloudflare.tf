@@ -11,9 +11,9 @@ data "cloudflare_zero_trust_tunnel_cloudflared_token" "tunnel_token" {
 }
 
 # Creates the CNAME record that routes nuc10i7fnh services to the tunnel.
-resource "cloudflare_dns_record" "nuc10i7fnh" {
+resource "cloudflare_dns_record" "portainer" {
   zone_id = var.zone_id
-  name    = "nuc10i7fnh"
+  name    = "portainer"
   content = "${cloudflare_zero_trust_tunnel_cloudflared.tunnel.id}.cfargotunnel.com"
   type    = "CNAME"
   ttl     = 1
@@ -28,7 +28,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "tunnel_config" {
     ingress   = [
       {
         hostname = "portainer.${var.zone}"
-        service  = "http://portainer:9443"
+        service  = "http://portainer:9000"
       },
       {
         service  = "http_status:404"
