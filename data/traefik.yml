@@ -38,6 +38,8 @@ entryPoints:
     address: ":1243"
   protonmail-bridge-smtp:
     address: ":1125"
+  postgres:
+    address: ":5432"
 serversTransport:
   insecureSkipVerify: false
 providers:
