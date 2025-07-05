@@ -27,6 +27,8 @@ tls:
       keyFile: /etc/traefik/certs/loki.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/keycloak.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/keycloak.nuc10i7fnh.home.arpa/privkey.pem 
+    - certFile: /etc/traefik/certs/bills.nuc10i7fnh.home.arpa/fullchain.pem 
+      keyFile: /etc/traefik/certs/bills.nuc10i7fnh.home.arpa/privkey.pem 
     - certFile: /etc/traefik/certs/salt-box.nuc10i7fnh.home.arpa/fullchain.pem 
       keyFile: /etc/traefik/certs/salt-box.nuc10i7fnh.home.arpa/privkey.pem 
 
