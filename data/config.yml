@@ -103,7 +103,7 @@ http:
     default-whitelist:
       ipWhiteList:
         sourceRange:
-        - '192.168.2.0/24'
+        - '10.0.0.0/24'
         - '172.17.0.0/16'
         - '2a04:ee41:3:5506::0/64'
 
