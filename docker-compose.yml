@@ -31,7 +31,4 @@ services:
 
 networks:
   traefik_proxy:
-    name: traefik_proxy
-    enable_ipv6: true
-    ipam:
-      driver: default
+    external: true

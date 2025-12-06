@@ -37,3 +37,7 @@ providers:
   file:
     directory: /etc/traefik
     watch: true
+
+# disable upstream HTTPS certificate checks (https > https)
+serversTransport:
+    insecureSkipVerify: true
