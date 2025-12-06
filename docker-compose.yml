@@ -1,8 +1,10 @@
 services:
+
   traefik:
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
+    userns_mode: host
     security_opt:
       - no-new-privileges:true
     networks:
@@ -11,25 +13,25 @@ services:
       - 80:80
       - 443:443
     volumes:
+      - ./data:/etc/traefik:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /nfs_exports/home/user/docker/traefik/data:/etc/traefik:ro
+
+    environment:
+      - IPV6_PREFIX
     command:
-      - "--log.level=INFO"
+      # HTTP Entrypoint
+      - "--entrypoints.http.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
+      - "--entrypoints.http.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
+      # HTTPS Entrypoint
+      - "--entrypoints.https.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
+      - "--entrypoints.https.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
     labels:
       - "checkmk_monitor=true"
       - "traefik.enable=true"
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    environment:
-      - TUNNEL_TOKEN
-    networks:
-      - traefik_proxy
-    command: tunnel run
-    labels:
-      - "checkmk_monitor=true"
-
 networks:
   traefik_proxy:
-    external: true
+    name: traefik_proxy
+    enable_ipv6: true
+    ipam:
+      driver: default

@@ -1,36 +1,9 @@
 tls:
-
-  certificates:
-    - certFile: /etc/traefik/certs/traefik.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/traefik.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/checkmk.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/checkmk.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/portainer.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/portainer.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/paperless.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/paperless.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/elabftw.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/qbittorrent.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/authelia.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/airflow.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/airflow.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/duplicati.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/duplicati.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/grafana.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/grafana.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/loki.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/loki.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/keycloak.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/keycloak.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/bills.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/bills.nuc10i7fnh.home.arpa/privkey.pem 
-    - certFile: /etc/traefik/certs/salt-box.nuc10i7fnh.home.arpa/fullchain.pem 
-      keyFile: /etc/traefik/certs/salt-box.nuc10i7fnh.home.arpa/privkey.pem 
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/docker_fullchain.pem
+        keyFile: /etc/traefik/certs/docker_key.pem
 
 
 http:
@@ -38,7 +11,7 @@ http:
   routers:
 
     duplicati:
-      rule: Host(`duplicati.nuc10i7fnh.home.arpa`)
+      rule: Host(`duplicati.docker.home.arpa`)
       service: duplicati
       middlewares:
         - authelia@docker
@@ -48,7 +21,7 @@ http:
       tls: {}
 
     salt-box:
-      rule: Host(`salt-box.nuc10i7fnh.home.arpa`)
+      rule: Host(`salt-box.docker.home.arpa`)
       service: salt-box
       middlewares:
         - secured
@@ -57,7 +30,7 @@ http:
       tls: {}
 
     checkmk:
-      rule: Host(`checkmk.nuc10i7fnh.home.arpa`)
+      rule: Host(`checkmk.docker.home.arpa`)
       service: checkmk
       middlewares:
         - secured
@@ -66,7 +39,7 @@ http:
       tls: {}
 
     traefik:
-      rule: Host(`traefik.nuc10i7fnh.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      rule: Host(`traefik.docker.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
       middlewares:
         - secured
@@ -85,12 +58,12 @@ http:
     duplicati:
       loadBalancer:
         servers:
-          - url: "http://nuc10i7fnh.home.arpa:8002/"
+          - url: "http://docker.home.arpa:8002/"
 
     checkmk:
       loadBalancer:
         servers:
-          - url: "http://nuc10i7fnh.home.arpa:15000/"
+          - url: "http://docker.home.arpa:15000/"
 
 
   middlewares:
@@ -100,15 +73,15 @@ http:
         scheme: https
         permanent: true
 
-    default-whitelist:
-      ipWhiteList:
+    default-allowlist:
+      ipAllowList:
         sourceRange:
         - '10.0.0.0/24'
         - '172.17.0.0/16'
-        - '2a04:ee41:3:5506::0/64'
+        - '{{ env "IPV6_PREFIX" }}::0/64'
 
     secured:
       chain:
         middlewares:
         - https-redirectscheme
-        - default-whitelist
+        - default-allowlist

@@ -1,5 +1,8 @@
+accesslog: true
 api:
   dashboard: true
+  insecure: false
+
 entryPoints:
   http:
     address: ":80"
@@ -8,40 +11,25 @@ entryPoints:
         entryPoint:
           to: https
           scheme: https
-    forwardedHeaders:
-      trustedIPs:
-        - '10.0.0.0/24'
-        - '172.17.0.0/16'
-        - '2a04:ee41:3:5506::0/64'
-      insecure: false
-    proxyProtocol:
-      trustedIPs:
-        - '10.0.0.0/24'
-        - '172.17.0.0/16'
-        - '2a04:ee41:3:5506::0/64'
-      insecure: false
+    # Configuration for trustedIPs removed here, will be added via CLI
   https:
     address: ":443"
-    forwardedHeaders:
-      trustedIPs:
-        - '10.0.0.0/24'
-        - '172.17.0.0/16'
-        - '2a04:ee41:3:5506::0/64'
-      insecure: false
-    proxyProtocol:
-      trustedIPs:
-        - '10.0.0.0/24'
-        - '172.17.0.0/16'
-        - '2a04:ee41:3:5506::0/64'
-      insecure: false
+    # Configuration for trustedIPs removed here, will be added via CLI
   protonmail-bridge-imap:
     address: ":1243"
   protonmail-bridge-smtp:
     address: ":1125"
   postgres:
     address: ":5432"
-serversTransport:
-  insecureSkipVerify: false
+
+log:
+  level: INFO
+  format: json
+
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
@@ -49,4 +37,3 @@ providers:
   file:
     directory: /etc/traefik
     watch: true
-accessLog: {}
