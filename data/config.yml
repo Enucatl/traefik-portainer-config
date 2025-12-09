@@ -29,15 +29,6 @@ http:
         - "https"
       tls: {}
 
-    checkmk:
-      rule: Host(`checkmk.docker.home.arpa`)
-      service: checkmk
-      middlewares:
-        - secured
-      entryPoints:
-        - "https"
-      tls: {}
-
     traefik:
       rule: Host(`traefik.docker.home.arpa`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
@@ -59,12 +50,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://docker.home.arpa:8002/"
-
-    checkmk:
-      loadBalancer:
-        servers:
-          - url: "http://docker.home.arpa:15000/"
-
 
   middlewares:
 
