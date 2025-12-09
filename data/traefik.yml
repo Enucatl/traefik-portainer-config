@@ -11,16 +11,16 @@ entryPoints:
         entryPoint:
           to: https
           scheme: https
-    # Configuration for trustedIPs removed here, will be added via CLI
   https:
     address: ":443"
-    # Configuration for trustedIPs removed here, will be added via CLI
   protonmail-bridge-imap:
     address: ":1243"
   protonmail-bridge-smtp:
     address: ":1125"
   postgres:
     address: ":5432"
+  checkmk:
+    address: ":8000"
 
 log:
   level: INFO
