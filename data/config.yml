@@ -10,16 +10,6 @@ http:
 
   routers:
 
-    duplicati:
-      rule: Host(`duplicati.docker.home.arpa`)
-      service: duplicati
-      middlewares:
-        - authelia@docker
-        - secured
-      entryPoints:
-        - "https"
-      tls: {}
-
     salt-box:
       rule: Host(`salt-box.docker.home.arpa`)
       service: salt-box
@@ -45,11 +35,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://salt.box/"
-
-    duplicati:
-      loadBalancer:
-        servers:
-          - url: "http://docker.home.arpa:8002/"
 
   middlewares:
 
