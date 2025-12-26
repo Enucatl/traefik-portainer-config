@@ -23,7 +23,7 @@ entryPoints:
     address: ":8000"
 
 log:
-  level: INFO
+  level: DEBUG
   format: json
 
 global:
