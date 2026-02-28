@@ -20,11 +20,11 @@ services:
       - IPV6_PREFIX
     command:
       # HTTP Entrypoint
-      - "--entrypoints.http.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
-      - "--entrypoints.http.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
+      - "--entrypoints.http.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::/48"
+      - "--entrypoints.http.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::/48"
       # HTTPS Entrypoint
-      - "--entrypoints.https.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
-      - "--entrypoints.https.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::0/64"
+      - "--entrypoints.https.forwardedHeaders.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::/48"
+      - "--entrypoints.https.proxyProtocol.trustedIPs=10.0.0.0/24,172.17.0.0/16,${IPV6_PREFIX}::/48"
     labels:
       - "checkmk_monitor=true"
       - "traefik.enable=true"

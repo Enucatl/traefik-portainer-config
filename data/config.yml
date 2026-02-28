@@ -48,7 +48,7 @@ http:
         sourceRange:
         - '10.0.0.0/24'
         - '172.17.0.0/16'
-        - '{{ env "IPV6_PREFIX" }}::0/64'
+        - '{{ env "IPV6_PREFIX" }}::/48'
 
     secured:
       chain:
