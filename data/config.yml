@@ -46,9 +46,13 @@ http:
     default-allowlist:
       ipAllowList:
         sourceRange:
-        - '10.0.0.0/24'
+        - '{{ env "LAN_SUBNET" }}'
+        - '{{ env "TRUSTED_WIFI_SUBNET" }}'
+        - '{{ env "WG_SUBNET" }}'
         - '172.17.0.0/16'
-        - '{{ env "IPV6_PREFIX" }}::/48'
+        - '{{ env "IPV6_PREFIX" }}:0::/64'
+        - '{{ env "IPV6_PREFIX" }}:a::/64'
+        - '{{ env "IPV6_PREFIX" }}:c8::/64'
 
     secured:
       chain:
