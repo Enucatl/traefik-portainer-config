@@ -46,6 +46,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 127.0.0.1:8082:8082
     volumes:
       - ./data:/etc/traefik:ro
       - socket-proxy.run:/var/run

@@ -1,4 +1,14 @@
 tls:
+  options:
+    default:
+      minVersion: VersionTLS12
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
   stores:
     default:
       defaultCertificate:
@@ -9,6 +19,38 @@ tls:
 http:
 
   routers:
+
+    block-probe-paths-http:
+      rule: PathRegexp(`(?i)^/(?:\.env|\.git|wp-admin|phpmyadmin)(?:$|/|[._-])`)
+      priority: 100000
+      service: noop@internal
+      entryPoints:
+        - "http"
+
+    block-probe-paths-https:
+      rule: PathRegexp(`(?i)^/(?:\.env|\.git|wp-admin|phpmyadmin)(?:$|/|[._-])`)
+      priority: 100000
+      service: noop@internal
+      entryPoints:
+        - "https"
+      tls: {}
+
+    http-to-https:
+      rule: PathPrefix(`/`)
+      priority: 99999
+      service: noop@internal
+      middlewares:
+        - https-redirectscheme
+      entryPoints:
+        - "http"
+
+    unknown-hosts:
+      rule: PathPrefix(`/`)
+      priority: 1
+      service: noop@internal
+      entryPoints:
+        - "https"
+      tls: {}
 
     salt-box:
       rule: Host(`salt-box.docker.home.arpa`)
@@ -54,10 +96,14 @@ http:
         - '{{ env "IPV6_TRUSTED_WIFI_SUBNET" }}'
         - '{{ env "IPV6_WG_SUBNET" }}'
 
+    public-rate-limit:
+      rateLimit:
+        average: 1000
+        period: 1m
+        burst: 100
+
     secured:
       chain:
         middlewares:
         - https-redirectscheme
         - default-allowlist
-
-
