@@ -1,5 +1,33 @@
 services:
 
+  socket-proxy:
+    extends:
+      file: ../compose-security-baseline/hardening.yml
+      service: hardened-tiny
+    image: 11notes/socket-proxy@sha256:6806f9b3cfe64325ae2dc967381412e415d868c9542753962fd2e73f4f9686f1
+    container_name: socket-proxy
+    restart: unless-stopped
+    network_mode: none
+    read_only: true
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+    # The host runs Docker with userns-remap: default. The proxy needs host
+    # userns to access the real Docker socket.
+    userns_mode: host
+    user: "0:988"
+    # Docker remaps Traefik's container UID 1000 to host UID 101000. Own the
+    # exported proxy socket by that host ID so Traefik can use Unix socket
+    # permissions instead of the TCP Docker API proxy.
+    environment:
+      SOCKET_PROXY_UID: "101000"
+      SOCKET_PROXY_GID: "101000"
+    volumes:
+      - /var/run/docker.sock:/run/docker.sock:ro
+      - socket-proxy.run:/run/proxy
+
   traefik:
     extends:
       file: ../compose-security-baseline/hardening.yml
@@ -8,11 +36,11 @@ services:
     container_name: traefik
     restart: unless-stopped
     cpu_shares: 2048
-    cap_add:
-      - NET_BIND_SERVICE
-      - DAC_READ_SEARCH
-    # Keep this explicit: Traefik needs direct Docker API discovery until a socket proxy is introduced.
-    userns_mode: host
+    user: "1000:1000"
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+        restart: true
     networks:
       - traefik_proxy
     ports:
@@ -20,7 +48,7 @@ services:
       - 443:443
     volumes:
       - ./data:/etc/traefik:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - socket-proxy.run:/var/run
 
     environment:
       - LAN_SUBNET
@@ -43,3 +71,6 @@ services:
 networks:
   traefik_proxy:
     external: true
+
+volumes:
+  socket-proxy.run:
