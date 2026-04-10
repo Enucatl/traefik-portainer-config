@@ -1,12 +1,18 @@
 services:
 
   traefik:
+    extends:
+      file: ../compose-security-baseline/hardening.yml
+      service: traefik-edge
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
+    cpu_shares: 2048
+    cap_add:
+      - NET_BIND_SERVICE
+      - DAC_READ_SEARCH
+    # Keep this explicit: Traefik needs direct Docker API discovery until a socket proxy is introduced.
     userns_mode: host
-    security_opt:
-      - no-new-privileges:true
     networks:
       - traefik_proxy
     ports:
