@@ -11,7 +11,6 @@ services:
     read_only: true
     cap_add:
       - CHOWN
-      - DAC_OVERRIDE
       - SETGID
       - SETUID
     # The host runs Docker with userns-remap: default. The proxy needs host
@@ -31,7 +30,9 @@ services:
   traefik:
     extends:
       file: ../compose-security-baseline/hardening.yml
-      service: traefik-edge
+      service: hardened-small
+    cap_add:
+      - NET_BIND_SERVICE
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
