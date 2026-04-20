@@ -5,10 +5,10 @@ services:
       file: ../compose-security-baseline/hardening.yml
       service: hardened-tiny
     image: 11notes/socket-proxy@sha256:6806f9b3cfe64325ae2dc967381412e415d868c9542753962fd2e73f4f9686f1
-    container_name: socket-proxy
-    restart: unless-stopped
+    tmpfs: !reset []
     network_mode: none
-    read_only: true
+    healthcheck:
+      disable: true
     cap_add:
       - CHOWN
       - SETGID
@@ -34,14 +34,11 @@ services:
     cap_add:
       - NET_BIND_SERVICE
     image: traefik:latest
-    container_name: traefik
-    restart: unless-stopped
     cpu_shares: 2048
     user: "1000:1000"
     depends_on:
       socket-proxy:
-        condition: service_healthy
-        restart: true
+        condition: service_started
     networks:
       - traefik_proxy
     ports:
