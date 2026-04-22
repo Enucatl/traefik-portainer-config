@@ -5,7 +5,6 @@ services:
       file: ../compose-security-baseline/hardening.yml
       service: hardened-tiny
     image: 11notes/socket-proxy@sha256:6806f9b3cfe64325ae2dc967381412e415d868c9542753962fd2e73f4f9686f1
-    tmpfs: !reset []
     network_mode: none
     healthcheck:
       disable: true
