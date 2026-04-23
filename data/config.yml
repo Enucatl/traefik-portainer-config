@@ -88,13 +88,14 @@ http:
     default-allowlist:
       ipAllowList:
         sourceRange:
-        - '{{ env "LAN_SUBNET" }}'
-        - '{{ env "TRUSTED_WIFI_SUBNET" }}'
-        - '{{ env "WG_SUBNET" }}'
-        - '172.17.0.0/16'
-        - '{{ env "IPV6_LAN_SUBNET" }}'
-        - '{{ env "IPV6_TRUSTED_WIFI_SUBNET" }}'
-        - '{{ env "IPV6_WG_SUBNET" }}'
+          - '{{ env "LAN_SUBNET" }}'
+          - '{{ env "TRUSTED_WIFI_SUBNET" }}'
+          - '{{ env "WG_SUBNET" }}'
+          # Matches the Docker default address pool from /etc/docker/daemon.json.
+          - '172.16.0.0/12'
+          - '{{ env "IPV6_LAN_SUBNET" }}'
+          - '{{ env "IPV6_TRUSTED_WIFI_SUBNET" }}'
+          - '{{ env "IPV6_WG_SUBNET" }}'
 
     public-rate-limit:
       rateLimit:
