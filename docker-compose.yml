@@ -46,6 +46,8 @@ services:
       - 127.0.0.1:8082:8082
     volumes:
       - ./data:/etc/traefik:ro
+      - /usr/local/share/ca-certificates/ipa-ca/CN=Docker Home Arpa Root CA 634702368810934143245700742467692493878270055232.crt:/run/mtls-ca/docker-root-ca.crt:ro
+      - /usr/local/share/ca-certificates/ipa-ca/CN=Docker Home Arpa Intermediate CA 23079772591184115385777399826341917639265133410.crt:/run/mtls-ca/docker-intermediate-ca.crt:ro
       - socket-proxy.run:/var/run
 
     environment:
